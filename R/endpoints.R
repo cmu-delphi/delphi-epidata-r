@@ -1,24 +1,24 @@
 #' fetch AFHSB data (point data, no min/max)
 #'
 #' @param auth authenfication token
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @param flu_types flu_types to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_afhsb <- function(auth, locations, epiweeks, flu_types) {
+pvt_afhsb <- function(auth, epiweeks, locations, flu_types) {
   check_single_string_param("auth", auth)
-  check_string_param("locations", locations)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
   check_string_param("flu_types", flu_types)
 
   create_epidata_call(
     "afhsb/",
     list(
       auth = auth,
-      locations = locations,
       epiweeks = epiweeks,
+      locations = locations,
       flu_types = flu_types
     ),
     list(
@@ -396,17 +396,17 @@ covid_hosp_facility <-
 #'
 #' fetch COVID hospitalization data
 #'
-#' @param states states to fetch
 #' @param dates dates to fetch
+#' @param states states to fetch
 #' @param issues issues to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
 #
 covid_hosp_state_timeseries <-
-  function(states, dates, issues = NULL) {
-    check_string_param("states", states)
+  function(dates, states, issues = NULL) {
     check_epirange_param("dates", dates)
+    check_string_param("states", states)
     check_epirange_param("issues", issues, FALSE)
 
     create_epidata_call(
@@ -756,14 +756,14 @@ delphi <- function(system, epiweek) {
 
 #'
 #' fetch Delphi's PAHO Dengue nowcast
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-dengue_nowcast <- function(locations, epiweeks) {
-  check_string_param("locations", locations)
+dengue_nowcast <- function(epiweeks, locations) {
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
 
   create_epidata_call(
     "dengue_nowcast/",
@@ -781,16 +781,16 @@ dengue_nowcast <- function(locations, epiweeks) {
 #' fetch Delphi's digital surveillance sensors
 #' @param auth authenfication token
 #' @param names names to fetch
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_dengue_sensors <- function(auth, names, locations, epiweeks) {
+pvt_dengue_sensors <- function(auth, names, epiweeks, locations) {
   check_single_string_param("auth", auth)
   check_string_param("names", names)
-  check_string_param("locations", locations)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
 
   create_epidata_call(
     "dengue_sensors/",
@@ -813,19 +813,19 @@ pvt_dengue_sensors <- function(auth, names, locations, epiweeks) {
 #'
 #' fetch ECDC data
 #'
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues optionally specify the exact issues to fetch
 #' @param lag optionally specify the issue lag
 #' @return an instance of epidata_call
 #'
 #' @export
-ecdc_ili <- function(regions,
-                     epiweeks,
+ecdc_ili <- function(epiweeks,
+                     regions,
                      issues = NULL,
                      lag = NULL) {
-  check_string_param("regions", regions)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("regions", regions)
   check_epirange_param("issues", issues, FALSE)
   check_single_int_param("lag", lag, FALSE)
   if (!missing(issues) && !missing(lag)) {
@@ -853,19 +853,19 @@ ecdc_ili <- function(regions,
 #'
 #' fetch FluSurv virological data
 #'
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @param issues optionally specify the exact issues to fetch
 #' @param lag optionally specify the issue lag
 #' @return an instance of epidata_call
 #'
 #' @export
-flusurv <- function(locations,
-                    epiweeks,
+flusurv <- function(epiweeks,
+                    locations,
                     issues = NULL,
                     lag = NULL) {
-  check_string_param("locations", locations)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
   check_epirange_param("issues", issues, FALSE)
   check_single_int_param("lag", lag, FALSE)
   if (!missing(issues) && !missing(lag)) {
@@ -898,20 +898,20 @@ flusurv <- function(locations,
 #'
 #' fetch FluView virological data
 #'
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues optionally specify the exact issues to fetch
 #' @param lag optionally specify the issue lag
 #' @return an instance of epidata_call
 #'
 #' @export
 fluview_clinical <-
-  function(regions,
-           epiweeks,
+  function(epiweeks,
+           regions,
            issues = NULL,
            lag = NULL) {
-    check_string_param("regions", regions)
     check_epirange_param("epiweeks", epiweeks)
+    check_string_param("regions", regions)
     check_epirange_param("issues", issues, FALSE)
     check_single_int_param("lag", lag, FALSE)
     if (!missing(issues) && !missing(lag)) {
@@ -962,8 +962,8 @@ fluview_meta <- function() {
 #'
 #' fetch fluview data
 #'
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues optionally specify the exact issues to fetch
 #' @param lag optionally specify the issue lag
 #' @param auth optional authentication
@@ -971,13 +971,13 @@ fluview_meta <- function() {
 #'
 #' @export
 fluview <-
-  function(regions,
-           epiweeks,
+  function(epiweeks,
+           regions,
            issues = NULL,
            lag = NULL,
            auth = NULL) {
-    check_string_param("regions", regions)
     check_epirange_param("epiweeks", epiweeks)
+    check_string_param("regions", regions)
     check_epirange_param("issues", issues, FALSE)
     check_single_int_param("lag", lag, FALSE)
     check_single_string_param("auth", auth, FALSE)
@@ -1017,14 +1017,14 @@ fluview <-
 #'
 #' fetch Google Flu Trends data
 #'
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-gft <- function(locations, epiweeks) {
-  check_string_param("locations", locations)
+gft <- function(epiweeks, locations) {
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
   create_epidata_call(
     "gft/",
     list(locations = locations, epiweeks = epiweeks),
@@ -1040,16 +1040,16 @@ gft <- function(locations, epiweeks) {
 #' fetch Google Health Trends data
 #'
 #' @param auth autentification
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @param query query
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_ght <- function(auth, locations, epiweeks, query) {
+pvt_ght <- function(auth, epiweeks, locations, query) {
   check_single_string_param("auth", auth)
-  check_string_param("locations", locations)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
   check_single_string_param("query", query)
   create_epidata_call(
     "ght/",
@@ -1070,19 +1070,19 @@ pvt_ght <- function(auth, locations, epiweeks, query) {
 #'
 #' fetch KCDC data
 #'
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues optionally specify the exact issues to fetch
 #' @param lag optionally specify the issue lag
 #' @return an instance of epidata_call
 #'
 #' @export
-kcdc_ili <- function(regions,
-                     epiweeks,
+kcdc_ili <- function(epiweeks,
+                     regions,
                      issues = NULL,
                      lag = NULL) {
-  check_string_param("regions", regions)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("regions", regions)
   check_epirange_param("issues", issues, FALSE)
   check_single_int_param("lag", lag, FALSE)
   if (!missing(issues) && !missing(lag)) {
@@ -1144,14 +1144,14 @@ meta <- function() {
 
 #'
 #' fetch NIDSS dengue data
-#' @param locations locations to fech
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fech
 #' @return an instance of epidata_call
 #'
 #' @export
-nidss_dengue <- function(locations, epiweeks) {
-  check_string_param("locations", locations)
+nidss_dengue <- function(epiweeks, locations) {
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
 
   create_epidata_call(
     "nidss_dengue/",
@@ -1166,20 +1166,20 @@ nidss_dengue <- function(locations, epiweeks) {
 
 #'
 #' fetch NIDSS dengue data
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues optional issues
 #' @param lag optional lag
 #' @return an instance of epidata_call
 #'
 #' @export
 nidss_flu <-
-  function(regions,
-           epiweeks,
+  function(epiweeks,
+           regions,
            issues = NULL,
            lag = NULL) {
-    check_string_param("regions", regions)
     check_epirange_param("epiweeks", epiweeks)
+    check_string_param("regions", regions)
     check_epirange_param("issues", issues, FALSE)
     check_single_int_param("lag", lag, FALSE)
 
@@ -1211,15 +1211,15 @@ nidss_flu <-
 #' fetch NoroSTAT data (point data, no min/max)
 #'
 #' @param auth authenfication token
-#' @param location location to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param location location to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_norostat <- function(auth, location, epiweeks) {
+pvt_norostat <- function(auth, epiweeks, location) {
   check_single_string_param("auth", auth)
-  check_single_string_param("locations", location)
   check_epirange_param("epiweeks", epiweeks)
+  check_single_string_param("locations", location)
 
   create_epidata_call(
     "norostat/",
@@ -1238,14 +1238,14 @@ pvt_norostat <- function(auth, location, epiweeks) {
 
 #'
 #' fetch Delphi's wILI nowcast
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-nowcast <- function(locations, epiweeks) {
-  check_string_param("locations", locations)
+nowcast <- function(epiweeks, locations) {
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
 
   create_epidata_call(
     "nowcast/",
@@ -1261,19 +1261,19 @@ nowcast <- function(locations, epiweeks) {
 
 #' fetch Paho Dengue
 #'
-#' @param regions regions to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param regions regions to fetch
 #' @param issues issues to fetch
 #' @param lag lag to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-paho_dengue <- function(regions,
-                        epiweeks,
+paho_dengue <- function(epiweeks,
+                        regions,
                         issues = NULL,
                         lag = NULL) {
-  check_string_param("regions", regions)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("regions", regions)
   check_epirange_param("issues", issues, FALSE)
   check_single_int_param("lag", lag, FALSE)
 
@@ -1305,15 +1305,15 @@ paho_dengue <- function(regions,
 #' fetch Quidel data
 #'
 #' @param auth authenfication token
-#' @param epiweeks epiweeks to fetch
 #' @param locations locations to fetch
+#' @param epiweeks epiweeks to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_quidel <- function(auth, epiweeks, locations) {
+pvt_quidel <- function(auth, locations, epiweeks) {
   check_single_string_param("auth", auth)
-  check_epirange_param("epiweeks", epiweeks)
   check_string_param("locations", locations)
+  check_epirange_param("epiweeks", epiweeks)
 
   create_epidata_call(
     "quidel/",
@@ -1334,16 +1334,16 @@ pvt_quidel <- function(auth, epiweeks, locations) {
 #' fetch Delphi's digital surveillance sensors
 #' @param auth authenfication token
 #' @param names names to fetch
-#' @param locations locations to fetch
 #' @param epiweeks epiweeks to fetch
+#' @param locations locations to fetch
 #' @return an instance of epidata_call
 #'
 #' @export
-pvt_sensors <- function(auth, names, locations, epiweeks) {
+pvt_sensors <- function(auth, names, epiweeks, locations) {
   check_single_string_param("auth", auth)
   check_string_param("names", names)
-  check_string_param("locations", locations)
   check_epirange_param("epiweeks", epiweeks)
+  check_string_param("locations", locations)
 
   create_epidata_call(
     "sensors/",
